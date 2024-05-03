@@ -3,6 +3,7 @@ from flow_matcher import ConditionalFlowMatcher
 import numpy as np
 from joblib import Parallel, delayed
 from tqdm_joblib import tqdm_joblib
+from tqdm import tqdm
 
 
 
@@ -68,11 +69,24 @@ class Model:
         model.fit(X_train, y_train)
         return model
     
-    def duplicate(self, X, k_times):
-        return np.tile(X, (k_times, 1))
+    def duplicate(self, arr, k_times):
+        return np.tile(arr, (k_times, 1))
+
+    def train_noise_level(self, noise_idx, X_all, y_all, conditions=None):
+        return self.train_single(X_all[noise_idx], y_all[noise_idx], conditions)
 
     def train(self, X_train, conditions=None):
-        raise NotImplementedError("This method is not implemented yet.")
+        X1 = self.duplicate(X_train, self.n_noise_levels)
+        X_all, y_all = self.xt_and_ut(X1)
+
+        # trains n_noise_levels models in parallel
+        with tqdm_joblib(tqdm(desc="Training progress", total=self.n_noise_levels)) as progress_bar:
+            models = Parallel(n_jobs=-1)(
+                delayed(self.train_noise_level)(i)
+                for i in range(self.n_noise_levels)
+            )
+        return models
+
 
     def fit(self, X, y):
         self.model.fit(X, y)

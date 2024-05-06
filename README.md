@@ -8,6 +8,11 @@ The original implementation is available in [forest-diffusion](https://github.co
 
 Unlike the implemenation in the `forest-diffusion`, we simplify the implemenatation by utilising `XGBoost`'s ability to predict multiple regression outputs.
 
+## Installation
+```bash
+pip install flowmatching-bdt
+```
+
 ## Usage
 
 ```python

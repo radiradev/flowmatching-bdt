@@ -25,11 +25,11 @@ setup(
     'pytest-runner',
   ],
   tests_require=[
-    "joblib==1.4.0",
-    "scikit-learn==1.4.2",
+    "joblib==1.3.0",
+    "scikit-learn==1.3.2",
     "tqdm==4.66.2",
     "tqdm_joblib==0.0.3",
-    "xgboost==2.0.3"
+    "xgboost==2.0.0"
   ],
   classifiers=[
     'Development Status :: 4 - Beta',

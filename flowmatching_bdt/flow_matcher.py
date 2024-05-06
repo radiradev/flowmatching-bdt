@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def pad_t_like_x(t, x):
     """Function to reshape the time vector t by the number of dimensions of x.
     

@@ -1,5 +1,6 @@
 from flowmatching_bdt import FlowMatchingBDT
 
+
 def test_model():
     from sklearn.datasets import make_moons
     data, _ = make_moons(n_samples=1000, noise=0.1, random_state=42)

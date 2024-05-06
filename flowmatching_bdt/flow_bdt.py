@@ -1,5 +1,5 @@
 from xgboost import XGBRegressor
-from flow_matching_bdt.flow_matcher import ConditionalFlowMatcher
+from flowmatching_bdt.flow_matcher import ConditionalFlowMatcher
 import numpy as np
 from joblib import Parallel, delayed
 from tqdm_joblib import tqdm_joblib
@@ -8,6 +8,9 @@ from tqdm import tqdm
 
 # helper function
 def duplicate(arr, n_times):
+    if len(arr.shape) == 1:
+        arr = arr[:, None]
+    
     return np.tile(arr, (n_times, 1))
 
 
@@ -19,7 +22,7 @@ class FlowMatchingBDT:
         max_depth=7,
         n_estimators=100,
         eta=0.3,
-        tree_method="hist",
+        tree_method="approx",
         reg_lambda=0.0,
         reg_alpha=0.0,
         subsample=1.0,
@@ -55,7 +58,7 @@ class FlowMatchingBDT:
         y_train : ndarray, shape (n_flow_steps, n_samples, n_features)
             The corresponding velocity fields.
         """
-        
+
         n_samples, n_features = x1.shape
         
         x0 = np.random.normal(size=(n_samples, n_features))
@@ -83,6 +86,7 @@ class FlowMatchingBDT:
             max_depth=self.max_depth,
             n_estimators=self.n_estimators,
             eta=self.eta,
+            num_target = vt.shape[1],
             tree_method=self.tree_method,
             reg_lambda=self.reg_lambda,
             reg_alpha=self.reg_alpha,
@@ -115,6 +119,10 @@ class FlowMatchingBDT:
         """
 
         x1 = duplicate(x_train, self.n_duplicates)
+
+        if conditions is not None:
+            conditions = duplicate(conditions, self.n_duplicates)
+        
         xt, vt = self.xt_and_vt(x1)
 
         def train_noise_level(noise_level):
@@ -148,7 +156,7 @@ class FlowMatchingBDT:
 
     def model_t(self, t, xt, conditions=None):
         flow_step = int(round(t * (self.n_flow_steps - 1)))
-        
+
         if conditions is not None:
             xt = np.concatenate([xt, conditions], axis=1)
         

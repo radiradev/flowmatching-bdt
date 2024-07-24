@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
   name = 'flowmatching-bdt',
   packages = find_packages(exclude=['assets']),
-  version = '0.1.0',
+  version = '0.2.0',
   license='MIT',
   description = 'Flow Matching with BDTs',
   long_description_content_type = 'text/markdown',

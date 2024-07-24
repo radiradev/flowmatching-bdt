@@ -25,7 +25,7 @@ def test_condtional():
 
     # get new samples
     num_samples = 1000
-    conditions = np.ones((num_samples, 1))
+    conditions = np.ones(num_samples)
     samples = model.predict(num_samples=num_samples, conditions=conditions)
 
 

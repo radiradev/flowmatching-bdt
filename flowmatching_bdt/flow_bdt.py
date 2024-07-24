@@ -94,6 +94,8 @@ class FlowMatchingBDT:
         )
 
         if conditions is not None:
+            if conditions.ndim == 1:
+                conditions = np.expand_dims(conditions, axis=1)
             xt = np.concatenate([xt, conditions], axis=1)
 
         # learn to predict the velocity field given a noised input
@@ -158,6 +160,8 @@ class FlowMatchingBDT:
         flow_step = int(round(t * (self.n_flow_steps - 1)))
 
         if conditions is not None:
+            if conditions.ndim == 1:
+                conditions = np.expand_dims(conditions, axis=1)
             xt = np.concatenate([xt, conditions], axis=1)
         
         return self.models[flow_step].predict(xt)

@@ -27,7 +27,7 @@ setup(
   tests_require=[
     "joblib==1.3.0",
     "scikit-learn==1.3.2",
-    "tqdm==4.66.2",
+    "tqdm==4.66.3",
     "tqdm_joblib==0.0.3",
     "xgboost==2.0.0"
   ],

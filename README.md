@@ -6,7 +6,7 @@ A minimal implementation of a genenerative model with [flow matching for tabular
 
 The original implementation is available in [forest-diffusion](https://github.com/SamsungSAILMontreal/ForestDiffusion). Another implementation is available in the [`torchcfm`](https://github.com/atong01/conditional-flow-matching/tree/main/examples/tabular) library.
 
-Unlike the implemenation in the `forest-diffusion`, we simplify the implemenatation by utilising `XGBoost`'s ability to predict multiple regression outputs.
+Unlike the implementation in `forest-diffusion`, we simplify the implemenatation by utilising `XGBoost`'s ability to predict multiple regression outputs.
 
 ## Installation
 ```bash

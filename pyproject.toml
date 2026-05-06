@@ -21,7 +21,6 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 dependencies = [
-    "xgboost>=2.0.0",
     "scikit-learn>=1.3",
     "tqdm>=4.6",
     "tqdm_joblib>=0.0.3",
@@ -29,6 +28,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "matplotlib>=3.10.9",
     "pytest",
 ]
 

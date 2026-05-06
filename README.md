@@ -30,7 +30,7 @@ num_samples = 1000
 samples = model.predict(num_samples=num_samples)
 ```
 
-<img src="./assets/moons.png" width="400px">
+<img src="./assets/flow_animation.gif" width="500px">
 
 If you'd like to do conditional generation:
 ```python

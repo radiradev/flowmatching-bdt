@@ -28,8 +28,13 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "lightgbm>=4.6.0",
     "matplotlib>=3.10.9",
+    "mkdocstrings-python>=2.0.3",
+    "mktestdocs>=0.2.5",
     "pytest",
+    "torch>=2.11.0",
+    "zensical>=0.0.40",
 ]
 
 [build-system]

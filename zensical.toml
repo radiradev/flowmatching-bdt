@@ -1,0 +1,72 @@
+[project]
+site_name = "Flow-Matching BDT"
+site_description = "Flow matching generative models with gradient-boosted decision trees for tabular data."
+site_author = "Radi Radev"
+site_url = "https://radiradev.github.io/flowmatching-bdt/"
+copyright = """
+Copyright &copy; 2024 Radi Radev
+"""
+
+nav = [
+  { "Home" = "index.md" },
+  { "API Reference" = [
+    { "FlowMatchingBDT" = "api/flow_bdt.md" },
+    { "Probability Paths" = "api/paths.md" },
+  ]},
+  { "Examples" = [
+    { "Scikit-learn API" = "examples/sklearn_api.md" },
+    { "Custom Estimators" = "examples/custom_estimators.md" },
+    { "Torch MLP Estimator" = "examples/torch_mlp.md" },
+    { "Probability Paths" = "examples/probability_paths.md" },
+  ]},
+]
+
+[project.theme]
+language = "en"
+
+features = [
+  "content.code.copy",
+  "content.code.annotate",
+  "navigation.instant",
+  "navigation.footer",
+  "navigation.tabs",
+  "navigation.sections",
+  "search.highlight",
+  "search.suggest",
+]
+
+[[project.theme.palette]]
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["."]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+docstring_style = "numpy"
+docstring_section_style = "list"
+inherited_members = true
+show_source = false
+show_root_heading = true
+show_root_full_path = false
+show_symbol_type_heading = true
+show_symbol_type_toc = true
+show_category_heading = true
+separate_signature = true
+show_signature_annotations = true
+modernize_annotations = true
+members_order = "source"
+
+[project.markdown_extensions.pymdownx]
+highlight.anchor_linenums = true
+superfences = {}
+tabbed.alternate_style = true
+
+[project.markdown_extensions]
+admonition = {}

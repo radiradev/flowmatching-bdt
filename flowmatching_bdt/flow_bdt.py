@@ -2,7 +2,7 @@ from typing import Callable, Optional
 
 import numpy as np
 from joblib import Parallel, delayed
-from sklearn.base import RegressorMixin, clone
+from sklearn.base import BaseEstimator, RegressorMixin, clone
 from sklearn.ensemble import HistGradientBoostingRegressor
 from sklearn.multioutput import MultiOutputRegressor
 from tqdm import tqdm
@@ -17,7 +17,7 @@ def duplicate(arr: np.ndarray, n_times: int) -> np.ndarray:
     return np.tile(arr, (n_times, 1))
 
 
-class FlowMatchingBDT:
+class FlowMatchingBDT(BaseEstimator):
     """Flow-matching generative model with gradient-boosted decision trees.
 
     Trains one regressor per flow step to predict the velocity field of a
@@ -36,7 +36,12 @@ class FlowMatchingBDT:
         conditional distribution ``p(xt | x1)``.
     estimator : sklearn-compatible regressor, default=HistGradientBoostingRegressor()
         Base estimator cloned and fit at each flow step. Wrapped in
-        ``MultiOutputRegressor`` to predict multi-dimensional velocity.
+        ``MultiOutputRegressor`` unless ``multi_output=True``.
+    multi_output : bool, default=False
+        If ``True``, the estimator is assumed to handle multi-output
+        regression natively and is **not** wrapped in
+        ``MultiOutputRegressor``. Set this when using estimators like
+        neural networks that already predict all output dimensions at once.
     source_distribution : callable, default=np.random.normal
         Function with signature ``f(size=...) -> ndarray`` returning samples
         from the source distribution at t=0.
@@ -76,12 +81,14 @@ class FlowMatchingBDT:
         n_flow_steps: int = 50,
         n_duplicates: int = 100,
         estimator: RegressorMixin = HistGradientBoostingRegressor(),
+        multi_output: bool = False,
         source_distribution: Callable[..., np.ndarray] = np.random.normal,
         path: ProbabilityPath = LinearPath(),
     ):
         self.n_flow_steps = n_flow_steps
         self.n_duplicates = n_duplicates
         self.estimator = estimator
+        self.multi_output = multi_output
         self.source_distribution = source_distribution
         self.path = path
 
@@ -182,7 +189,10 @@ class FlowMatchingBDT:
         MultiOutputRegressor
             Fitted regressor mapping ``xt`` (and conditions) to ``vt``.
         """
-        model = MultiOutputRegressor(clone(self.estimator))
+        if self.multi_output:
+            model = clone(self.estimator)
+        else:
+            model = MultiOutputRegressor(clone(self.estimator))
         if conditions is not None:
             xt = self._attach_conditions(xt, conditions)
         model.fit(xt, vt)

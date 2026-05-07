@@ -1,6 +1,11 @@
 # Flow-Matching BDT
 
-A minimal implementation of a generative model with [flow matching for tabular data](https://arxiv.org/abs/2309.09968). No deep learning — uses gradient-boosted decision trees to learn the generative model.
+This is a small library for training flow-matching models. Its primary focus is using efficent algorithms for tabular learning - e.g histogram boosted-decision trees, but it works with scikit-learn compatible regressor. 
+
+<figure markdown="span">
+  ![Flow matching animation](assets/flow_animation.gif)
+  <figcaption> A model generating samples: Gaussian source distribution is progressively transformed into the two-moons target.</figcaption>
+</figure>
 
 ## Installation
 
@@ -50,13 +55,13 @@ Flow matching trains a model to predict a velocity field that transports samples
 
 Gradient-boosted trees can learn this velocity field just as well as neural networks, while being faster to train on tabular data.
 
-## Resources
+## Useful Resources
 
 - [Introduction to Flow Matching](https://mlg.eng.cam.ac.uk/blog/2024/01/20/flow-matching.html) — Tor Fjelde, Emilie Mathieu, Vincent Dutordoir
 - [Generating Tabular Data with XGBoost](https://ajolicoeur.ca/2023/09/19/xgboost-diffusion/) — Alexia Jolicoeur
 
 ## Citation
-
+This repository started as a reproduction of the following paper:
 ```bibtex
 @inproceedings{jolicoeur2024generating,
   title={Generating and Imputing Tabular Data via Diffusion and Flow-based Gradient-Boosted Trees},

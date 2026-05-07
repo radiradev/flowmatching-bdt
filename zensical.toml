@@ -21,6 +21,22 @@ nav = [
   ]},
 ]
 
+extra_css = [
+  "https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css",
+]
+
+[[project.extra_javascript]]
+path = "https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"
+defer = true
+
+[[project.extra_javascript]]
+path = "https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+defer = true
+
+[[project.extra_javascript]]
+path = "javascripts/katex.js"
+defer = true
+
 [project.theme]
 language = "en"
 
@@ -67,6 +83,9 @@ members_order = "source"
 highlight.anchor_linenums = true
 superfences = {}
 tabbed.alternate_style = true
+arithmatex.generic = true
 
 [project.markdown_extensions]
 admonition = {}
+attr_list = {}
+md_in_html = {}

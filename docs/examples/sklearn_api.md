@@ -16,11 +16,6 @@ model.fit(data)  # returns self, like sklearn estimators
 samples = model.predict(num_samples=500)
 ```
 
-After calling `fit`, the model exposes learned attributes (with trailing underscores, per sklearn convention):
-
-- `model.models` — the list of trained per-step regressors
-- `model.n_features` — dimensionality of the training data
-
 ## Constructor Parameters
 
 All model configuration is passed through the constructor, just like scikit-learn:

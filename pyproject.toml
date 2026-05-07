@@ -1,6 +1,6 @@
 [project]
 name = "flowmatching-bdt"
-version = "0.2.0"
+version = "0.3.0"
 description = "Flow Matching with BDTs"
 readme = "README.md"
 license = "MIT"

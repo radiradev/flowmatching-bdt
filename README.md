@@ -1,62 +1,69 @@
 <img src="./assets/forest_flow.png" width="800px"></img>
 
-# Flow-Matching BDT for tabular data 
+[![Docs](https://img.shields.io/badge/docs-online-blue?logo=readthedocs)](https://radiradev.github.io/flowmatching-bdt/)
 
-A minimal implementation of a genenerative model with [flow matching for tabular data](https://arxiv.org/abs/2309.09968). No deep learning - uses XGBoost to learn the generative model. 
+# Flow-Matching BDT
 
-The original implementation is available in [forest-diffusion](https://github.com/SamsungSAILMontreal/ForestDiffusion). Another implementation is available in the [`torchcfm`](https://github.com/atong01/conditional-flow-matching/tree/main/examples/tabular) library.
+A small library for training flow-matching models. Its primary focus is using efficient algorithms for tabular learning — e.g. histogram boosted-decision trees — but it works with any scikit-learn compatible regressor.
 
-Unlike the implementation in `forest-diffusion`, we simplify the implemenatation by utilising `XGBoost`'s ability to predict multiple regression outputs.
+<img src="./assets/flow_animation.gif" width="500px">
 
 ## Installation
+
 ```bash
 pip install flowmatching-bdt
 ```
 
-## Usage
+## Quick Start
 
 ```python
 from sklearn.datasets import make_moons
 from flowmatching_bdt import FlowMatchingBDT
 
-data, _ = make_moons(n_samples=1000, noise=0.1, random_state=0)
+data, _ = make_moons(n_samples=500, noise=0.1, random_state=0)
 model = FlowMatchingBDT()
 
 # train the model
 model.fit(data)
 
-# get new samples
-num_samples = 1000
-samples = model.predict(num_samples=num_samples)
+# generate new samples
+samples = model.predict(num_samples=500)
 ```
 
-<img src="./assets/flow_animation.gif" width="500px">
+## Conditional Generation
 
-If you'd like to do conditional generation:
 ```python
 import numpy as np
 from sklearn.datasets import make_moons
 from flowmatching_bdt import FlowMatchingBDT
 
-data, labels = make_moons(n_samples=1000, noise=0.1, random_state=42)
+data, labels = make_moons(n_samples=500, noise=0.1, random_state=42)
 model = FlowMatchingBDT()
 
-# train the model
 model.fit(data, conditions=labels)
 
-# get new samples
-num_samples = 1000
-conditions = np.ones(num_samples)
-samples = model.predict(num_samples=num_samples, conditions=conditions)
+conditions = np.ones(500)
+samples = model.predict(num_samples=500, conditions=conditions)
 ```
-## Resources
-To learn more about flow matching for generative modelling check out these resources.
 
-1. [Introduction to Flow Matching](https://mlg.eng.cam.ac.uk/blog/2024/01/20/flow-matching.html) Tor Fjelde, Emilie Mathieu, Vincent Dutordoir
-2. [Generating Tabular Data with XGBoost](https://ajolicoeur.ca/2023/09/19/xgboost-diffusion/) Alexia Jolicoeur (Author of the ForestFlow paper)
+## How It Works
 
+Flow matching trains a model to predict a velocity field that transports samples from a simple source distribution (e.g. Gaussian noise) to the data distribution. This implementation:
 
-## Citations
+1. Discretises the flow into `n_flow_steps` time steps
+2. Trains one regressor per step to predict the velocity field
+3. At inference, integrates the learned field using Euler steps to generate new samples
+
+Gradient-boosted trees can learn this velocity field just as well as neural networks, while being faster to train on tabular data.
+
+## Useful Resources
+
+- [Introduction to Flow Matching](https://mlg.eng.cam.ac.uk/blog/2024/01/20/flow-matching.html) — Tor Fjelde, Emilie Mathieu, Vincent Dutordoir
+- [Generating Tabular Data with XGBoost](https://ajolicoeur.ca/2023/09/19/xgboost-diffusion/) — Alexia Jolicoeur
+
+## Citation
+
+This repository started as a reproduction of the following paper:
 ```bibtex
 @inproceedings{jolicoeur2024generating,
   title={Generating and Imputing Tabular Data via Diffusion and Flow-based Gradient-Boosted Trees},
@@ -68,5 +75,6 @@ To learn more about flow matching for generative modelling check out these resou
 }
 ```
 
-## Acknowlegements
+## Acknowledgements
+
 This repository is inspired heavily and borrows parts from [`lucidrains`](https://github.com/lucidrains) (project structure) and [`torch-cfm`](https://github.com/atong01/conditional-flow-matching).

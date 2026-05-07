@@ -1,6 +1,6 @@
 # Flow-Matching BDT
 
-This is a small library for training flow-matching models. Its primary focus is using efficent algorithms for tabular learning - e.g histogram boosted-decision trees, but it works with scikit-learn compatible regressor. 
+This is a small library for training flow-matching models. Its primary focus is using efficent algorithms for tabular learning - e.g histogram boosted-decision trees, but it works with any scikit-learn compatible regressor. 
 
 <figure markdown="span">
   ![Flow matching animation](assets/flow_animation.gif)
